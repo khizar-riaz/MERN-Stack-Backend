@@ -3,10 +3,12 @@ require("./db/config");
 const User = require("./db/User");
 const app = express();
 
-app.use(express.json()); //sending json data in body
+app.use(express.json()); 
 
 
-app.post("/register", (req, resp) => {
-  resp.send(req.body);   //request json data in the http post method body
+app.post("/register", async(req, resp) => {
+    let user = new User(req.body);   //inserting josn data to mongodb 
+    let result = await user.save();
+    resp.send(result);   
 });
 app.listen(5000);
